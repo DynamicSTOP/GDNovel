@@ -1,0 +1,39 @@
+{
+	"nodes": {
+		"0": {
+			"text": "All",
+			"children": ["2", "3", "4"]
+		},
+		"2": {
+			"text": "Episode 1",
+			"children": ["5", "6", "7"]
+		},
+		"3": {
+			"text": "Episode 2",
+			"children": ["8", "9", "10"]
+		},
+		"4": {
+			"text": "Episode 3"
+		},
+		"5": {
+			"text": "Bar"
+		},
+		"6": {
+			"text": "Town"
+		},
+		"7": {
+			"text": "Shop"
+		},
+		"8": {
+			"text": "Dungeon"
+		},
+		"9": {
+			"text": "Meeting"
+		},
+		"10": {
+			"text": "City B"
+		},
+		
+		
+	}
+}
