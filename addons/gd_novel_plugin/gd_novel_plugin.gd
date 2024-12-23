@@ -7,7 +7,7 @@ var dock
 func _enter_tree() -> void:
 	dock = dock_window.instantiate()
 	dock.name = 'GD Novel'
-	add_control_to_dock(EditorPlugin.DOCK_SLOT_LEFT_BL, dock)
+	add_control_to_dock(EditorPlugin.DOCK_SLOT_LEFT_UR, dock)
 	#add_control_to_bottom_panel(dock, 'GD Novel')
 
 func _exit_tree() -> void:

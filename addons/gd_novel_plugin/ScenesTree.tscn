@@ -3,30 +3,40 @@
 [ext_resource type="Script" path="res://addons/gd_novel_plugin/scenes_tree.gd" id="1_g50qt"]
 
 [node name="ScenesTree" type="Tree"]
+drop_mode_flags = 3
 script = ExtResource("1_g50qt")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupMenu"]
-anchors_preset = 15
+anchors_preset = 10
 anchor_right = 1.0
-anchor_bottom = 1.0
+offset_bottom = 31.0
 grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 2
 size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="Button" type="Button" parent="PopupMenu/VBoxContainer"]
+[node name="AddButton" type="Button" parent="PopupMenu/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Add"
 
-[node name="Button2" type="Button" parent="PopupMenu/VBoxContainer"]
+[node name="RenameButton" type="Button" parent="PopupMenu/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Rename"
 
-[node name="Button3" type="Button" parent="PopupMenu/VBoxContainer"]
+[node name="RemoveButton" type="Button" parent="PopupMenu/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Delete"
+
+[connection signal="empty_clicked" from="." to="." method="_on_empty_clicked"]
+[connection signal="item_activated" from="." to="." method="_on_item_activated"]
+[connection signal="item_mouse_selected" from="." to="." method="_on_item_mouse_selected"]
+[connection signal="button_down" from="PopupMenu/VBoxContainer/AddButton" to="." method="_on_add_button_button_down"]
+[connection signal="button_down" from="PopupMenu/VBoxContainer/RenameButton" to="." method="_on_rename_button_button_down"]
+[connection signal="button_down" from="PopupMenu/VBoxContainer/RemoveButton" to="." method="_on_remove_button_button_down"]
