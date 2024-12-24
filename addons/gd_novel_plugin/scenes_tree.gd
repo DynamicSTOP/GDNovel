@@ -108,6 +108,7 @@ func _gui_input(event: InputEvent) -> void:
 			popup_menu.popup_on_parent(Rect2(event.global_position, size ))
 	
 func _ready() -> void:
+	drop_mode_flags = DROP_MODE_DISABLED
 	print_debug('==GD NOVEL READY==')
 	load_tree()
 
@@ -138,9 +139,10 @@ func _on_add_button_button_down() -> void:
 	start_rename_item(new_item)
 	
 func _on_empty_clicked(click_position: Vector2, mouse_button_index: int) -> void:
-	print('empty clicked', click_position, mouse_button_index)
 	if mouse_button_index == MOUSE_BUTTON_LEFT:
-		tree.get_selected().deselect(0)
+		var selected:TreeItem = tree.get_selected()
+		if selected != null:
+			selected.deselect(0)
 
 func _on_item_activated() -> void:
 	var current_item:TreeItem = tree.get_selected()
@@ -148,10 +150,6 @@ func _on_item_activated() -> void:
 		return
 	print('item activated', current_item,' ',current_item.get_meta(META_ID),' ', current_item.get_meta(META_TEXT))
 	
-
-func _on_item_mouse_selected(mouse_position: Vector2, mouse_button_index: int) -> void:
-	print('item mouse selected', tree.get_selected().get_text(0), mouse_button_index)
-
 func _on_rename_button_button_down() -> void:
 	var current_item:TreeItem = tree.get_selected()
 	if current_item == null:
@@ -165,4 +163,65 @@ func _on_remove_button_button_down() -> void:
 		return
 	#TODO check inner scenes, ask if any exist
 	current_item.free()
+	save_tree_to_file()
+
+
+func _get_drag_data(_at_position: Vector2) -> Variant:
+	var current:TreeItem = tree.get_selected()
+	# if nothing selected 
+	if current == null:
+		return
+	# if trying to drag root 
+	if current.has_meta(META_ID) and current.get_meta(META_ID) == ROOT_NODE_ID:
+		return
+	
+	var v := VBoxContainer.new()
+	var l := Label.new()
+	l.text = current.get_text(0)
+	v.add_child(l)
+	
+	set_drag_preview(v)
+	return current
+
+func _can_drop_data(at_position: Vector2, dragged: Variant) -> bool:
+	drop_mode_flags = Tree.DROP_MODE_INBETWEEN << Tree.DROP_MODE_ON_ITEM
+	
+	var drop_section := get_drop_section_at_position(at_position)	
+	var item_at_pos := get_item_at_position(at_position)
+	
+	# trying to put before root
+	if (item_at_pos != null and drop_section == -1  
+		and item_at_pos.has_meta(META_ID) and item_at_pos.get_meta(META_ID) == ROOT_NODE_ID):
+		return false  
+	
+	# if we are trying to drop item on itself
+	if item_at_pos == dragged:
+		return false
+		
+	# TODO block dropping before and after itself
+		
+	# if we are trying to drop inside itself
+	while item_at_pos:
+		if item_at_pos.get_parent() == dragged:
+			return false
+		item_at_pos = item_at_pos.get_parent()
+		
+	return true
+
+func _drop_data(at_position: Vector2, dragged: Variant) -> void:
+	var drop_section := get_drop_section_at_position(at_position)
+	var other_item := get_item_at_position(at_position)
+	var sprite_groups := []
+	
+	if other_item == null:
+		return
+	
+	if drop_section == 0:
+		dragged.get_parent().remove_child(dragged)
+		other_item.add_child(dragged)
+	elif drop_section == -1:
+		dragged.move_before(other_item)
+	else:
+		dragged.move_after(other_item)
+	
 	save_tree_to_file()

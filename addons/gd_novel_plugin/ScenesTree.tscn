@@ -36,7 +36,6 @@ text = "Delete"
 
 [connection signal="empty_clicked" from="." to="." method="_on_empty_clicked"]
 [connection signal="item_activated" from="." to="." method="_on_item_activated"]
-[connection signal="item_mouse_selected" from="." to="." method="_on_item_mouse_selected"]
 [connection signal="button_down" from="PopupMenu/VBoxContainer/AddButton" to="." method="_on_add_button_button_down"]
 [connection signal="button_down" from="PopupMenu/VBoxContainer/RenameButton" to="." method="_on_rename_button_button_down"]
 [connection signal="button_down" from="PopupMenu/VBoxContainer/RemoveButton" to="." method="_on_remove_button_button_down"]
