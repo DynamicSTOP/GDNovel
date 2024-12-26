@@ -25,7 +25,7 @@ func _exit_tree() -> void:
 	#remove_control_from_bottom_panel(dock)
 	dock.free()
 	if stage:
-		stage_editor.queue_free()
+		stage.queue_free()
 	
 func _has_main_screen():
 	return true

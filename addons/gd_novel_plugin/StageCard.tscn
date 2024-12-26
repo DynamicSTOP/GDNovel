@@ -1,41 +1,81 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8ucw5lnmmtvf"]
+[gd_scene load_steps=21 format=3 uid="uid://c8ucw5lnmmtvf"]
 
 [ext_resource type="Texture2D" uid="uid://tfb0xsb6le0a" path="res://addons/gd_novel_plugin/icons/Favorites.svg" id="1_3df7t"]
 [ext_resource type="Texture2D" uid="uid://bpfeykd5ab1sw" path="res://addons/gd_novel_plugin/icons/Add.svg" id="1_231jq"]
+[ext_resource type="Script" path="res://addons/gd_novel_plugin/stage_card.gd" id="1_dmnxq"]
 [ext_resource type="Texture2D" uid="uid://dkuawfuodn1mc" path="res://addons/gd_novel_plugin/icons/ToolMove.svg" id="1_e0vg7"]
 [ext_resource type="Texture2D" uid="uid://c55nsam3ohb0e" path="res://addons/gd_novel_plugin/icons/Collapse.svg" id="2_3fbyx"]
 [ext_resource type="Texture2D" uid="uid://cusldpn3m84p6" path="res://addons/gd_novel_plugin/icons/Remove.svg" id="2_37jt2"]
+[ext_resource type="Texture2D" uid="uid://1vqk2860pelj" path="res://addons/gd_novel_plugin/icons/ColorPicker.svg" id="2_kjxxq"]
+[ext_resource type="Texture2D" uid="uid://d06dofona7v2s" path="res://addons/gd_novel_plugin/icons/Duplicate.svg" id="5_65f6j"]
+[ext_resource type="Texture2D" uid="uid://cmer32vnrsse5" path="res://addons/gd_novel_plugin/icons/resize.svg" id="6_hbupx"]
+[ext_resource type="Texture2D" uid="uid://ctapnqj86pg0a" path="res://addons/gd_novel_plugin/icons/Clear.svg" id="8_32dcw"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1h81y"]
-bg_color = Color(0.0896, 0.22288, 0.28, 1)
-border_color = Color(0.10902, 0.0468, 0.12, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bj2r0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.0286, 0.16896, 0.22, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 0.67451)
 border_blend = true
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_size = 6
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+shadow_size = 5
 shadow_offset = Vector2(5, 5)
 
 [sub_resource type="Theme" id="Theme_5ysiw"]
-Panel/styles/panel = SubResource("StyleBoxFlat_1h81y")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_bj2r0")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jqbsa"]
 
 [sub_resource type="Theme" id="Theme_7ruoa"]
+Button/styles/focus = SubResource("StyleBoxEmpty_jqbsa")
+
+[sub_resource type="Theme" id="Theme_vkskb"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xphaj"]
+content_margin_left = 6.0
+content_margin_top = 5.0
+content_margin_right = 6.0
+content_margin_bottom = 5.0
+bg_color = Color(0.147, 0.168, 0.203, 1)
+draw_center = false
+border_color = Color(0.1155, 0.132, 0.1595, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_hn24y"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_xphaj")
 
 [sub_resource type="Theme" id="Theme_mallu"]
 Button/colors/icon_normal_color = Color(1, 1, 1, 0.403922)
 
-[node name="StageCard" type="Panel"]
-custom_minimum_size = Vector2(250, 200)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ny8cb"]
+
+[sub_resource type="Theme" id="Theme_eip8v"]
+Button/styles/focus = SubResource("StyleBoxEmpty_ny8cb")
+
+[node name="StageCard" type="PanelContainer"]
+custom_minimum_size = Vector2(138, 110)
+offset_right = 250.0
+offset_bottom = 200.0
 theme = SubResource("Theme_5ysiw")
+script = ExtResource("1_dmnxq")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
@@ -47,28 +87,53 @@ layout_mode = 2
 [node name="HeaderContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/HeaderContainer"]
+[node name="MoveButton" type="Button" parent="MarginContainer/VBoxContainer/HeaderContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+tooltip_text = "Drag with mouse"
 theme = SubResource("Theme_7ruoa")
 theme_type_variation = &"FlatButton"
+action_mode = 0
 icon = ExtResource("1_e0vg7")
+flat = true
 
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HeaderContainer"]
+[node name="CardTitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HeaderContainer"]
 layout_mode = 2
 size_flags_vertical = 0
+tooltip_text = "Double click to rename"
+mouse_filter = 1
 text = "Card title"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HeaderContainer"]
 layout_mode = 2
 size_flags_horizontal = 10
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/HeaderContainer/HBoxContainer"]
+[node name="Button2" type="MenuButton" parent="MarginContainer/VBoxContainer/HeaderContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
+theme = SubResource("Theme_vkskb")
+theme_type_variation = &"FlatButton"
 icon = ExtResource("2_3fbyx")
+item_count = 6
+popup/item_0/text = "Favorite"
+popup/item_0/icon = ExtResource("1_3df7t")
+popup/item_1/text = "Color"
+popup/item_1/icon = ExtResource("2_kjxxq")
+popup/item_1/id = 1
+popup/item_2/text = "Duplicate"
+popup/item_2/icon = ExtResource("5_65f6j")
+popup/item_2/id = 3
+popup/item_3/text = "Duplicate (empty meta)"
+popup/item_3/icon = ExtResource("5_65f6j")
+popup/item_3/id = 5
+popup/item_4/text = "Copy as JSON"
+popup/item_4/id = 4
+popup/item_5/text = "Remove"
+popup/item_5/icon = ExtResource("2_37jt2")
+popup/item_5/id = 2
+popup/item_5/disabled = true
 
 [node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -77,41 +142,22 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MetaContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/BodyContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/BodyContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer/HSplitContainer"]
+[node name="MetaContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/BodyContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Some meta"
-
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer/HSplitContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "some value"
-
-[node name="HSplitContainer2" type="HSplitContainer" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer/HSplitContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Other Meta"
-
-[node name="LineEdit" type="LineEdit" parent="MarginContainer/VBoxContainer/BodyContainer/MetaContainer/HSplitContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "123"
+size_flags_vertical = 3
+theme = SubResource("Theme_hn24y")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/BodyContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
 
-[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/BodyContainer/HBoxContainer"]
+[node name="AddMetaLine" type="Button" parent="MarginContainer/VBoxContainer/BodyContainer/HBoxContainer"]
 layout_mode = 2
 theme = SubResource("Theme_mallu")
 icon = ExtResource("1_231jq")
@@ -122,19 +168,30 @@ layout_mode = 2
 
 [node name="FooterContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/FooterContainer"]
+[node name="ClearMetaButton" type="Button" parent="MarginContainer/VBoxContainer/FooterContainer"]
 layout_mode = 2
+size_flags_horizontal = 0
+tooltip_text = "Clear Meta Values"
+icon = ExtResource("8_32dcw")
+flat = true
 
-[node name="Button2" type="Button" parent="MarginContainer/VBoxContainer/FooterContainer/HBoxContainer"]
+[node name="ResizeButton" type="Button" parent="MarginContainer/VBoxContainer/FooterContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 10
 size_flags_vertical = 8
-icon = ExtResource("1_3df7t")
+tooltip_text = "Resize with mouse"
+theme = SubResource("Theme_eip8v")
+theme_type_variation = &"FlatButton"
+icon = ExtResource("6_hbupx")
+flat = true
 
-[node name="Button3" type="Button" parent="MarginContainer/VBoxContainer/FooterContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 8
-icon = ExtResource("2_37jt2")
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/HeaderContainer/MoveButton" to="." method="_on_move_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/HeaderContainer/MoveButton" to="." method="_on_move_button_button_up"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/BodyContainer/HBoxContainer/AddMetaLine" to="." method="_on_add_meta_line_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/FooterContainer/ClearMetaButton" to="." method="_on_clear_meta_button_pressed"]
+[connection signal="button_down" from="MarginContainer/VBoxContainer/FooterContainer/ResizeButton" to="." method="_on_resize_button_button_down"]
+[connection signal="button_up" from="MarginContainer/VBoxContainer/FooterContainer/ResizeButton" to="." method="_on_resize_button_button_up"]
