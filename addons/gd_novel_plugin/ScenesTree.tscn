@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxgvqkg2ix0rr"]
+[gd_scene load_steps=5 format=3 uid="uid://dxgvqkg2ix0rr"]
 
 [ext_resource type="Script" path="res://addons/gd_novel_plugin/scenes_tree.gd" id="1_g50qt"]
+[ext_resource type="Texture2D" uid="uid://bpfeykd5ab1sw" path="res://addons/gd_novel_plugin/icons/Add.svg" id="2_oisrf"]
+[ext_resource type="Texture2D" uid="uid://dkmf1ikooykt8" path="res://addons/gd_novel_plugin/icons/Rename.svg" id="3_fpwsi"]
+[ext_resource type="Texture2D" uid="uid://cusldpn3m84p6" path="res://addons/gd_novel_plugin/icons/Remove.svg" id="4_2inwb"]
 
 [node name="ScenesTree" type="Tree"]
-drop_mode_flags = 3
 script = ExtResource("1_g50qt")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
@@ -21,18 +23,21 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 size_flags_vertical = 3
 text = "Add"
+icon = ExtResource("2_oisrf")
 
 [node name="RenameButton" type="Button" parent="PopupMenu/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Rename"
+icon = ExtResource("3_fpwsi")
 
 [node name="RemoveButton" type="Button" parent="PopupMenu/VBoxContainer"]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 text = "Delete"
+icon = ExtResource("4_2inwb")
 
 [connection signal="empty_clicked" from="." to="." method="_on_empty_clicked"]
 [connection signal="item_activated" from="." to="." method="_on_item_activated"]

@@ -6,6 +6,7 @@ extends Tree
 @onready var add_button:Button = $PopupMenu/VBoxContainer/AddButton
 @onready var rename_button:Button = $PopupMenu/VBoxContainer/RenameButton
 @onready var remove_button:Button = $PopupMenu/VBoxContainer/RemoveButton
+@onready var icon: Resource = preload("res://addons/gd_novel_plugin/icons/filter-circle.svg")
 
 const ROOT_NODE_ID = "0"
 const TREE_DIR:String = "res://gd_novel"
@@ -60,6 +61,7 @@ func add_tree_node(nodes: Dictionary, node_id:String, parent_tree_item:TreeItem 
 		text = node.text
 	var current_tree_item:TreeItem = tree.create_item(parent_tree_item)
 	current_tree_item.set_text(0, text)
+	#current_tree_item.set_icon(0, icon)
 	current_tree_item.set_meta(META_TEXT, text)
 	current_tree_item.set_meta(META_ID, node_id)
 	

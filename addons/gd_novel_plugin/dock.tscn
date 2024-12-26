@@ -40,3 +40,4 @@ placeholder_text = "Search..."
 [node name="ScenesTree" parent="VBoxContainer" instance=ExtResource("2_fq8yc")]
 layout_mode = 2
 size_flags_vertical = 3
+drop_mode_flags = 0
