@@ -15,6 +15,7 @@ const CARD_INFO_TITLE = 'title'
 const CARD_INFO_METAS = 'meta'
 
 var card_info: Dictionary = {}
+@onready var cards_next: Array[Control] = []
 
 func set_card_info(info: Dictionary) -> void:
 	card_info = info
@@ -98,3 +99,16 @@ func _on_resize_button_button_down() -> void:
 func _on_resize_button_button_up() -> void:
 	emit_signal("end_resize", self)
 	
+func add_card_next(node:Node) -> void:
+	if !cards_next.has(node):
+		cards_next.push_back(node)
+
+func draw_line_to(node:Control) -> void:
+	var from = Vector2(size.x, size.y/2)
+	var to = node.global_position - global_position + Vector2(0, node.size.y/2)
+	draw_line(from, to, Color.WHITE, 4, true)
+	
+func _draw() -> void:
+	for next in cards_next:
+		draw_line_to(next)
+		
