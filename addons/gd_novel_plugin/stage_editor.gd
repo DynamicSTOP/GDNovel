@@ -3,7 +3,11 @@
 extends PanelContainer
 
 const card_scene := preload("res://addons/gd_novel_plugin/StageCard.tscn")
+const card_connector_scene := preload("res://addons/gd_novel_plugin/CardsConnector.tscn")
+
 @onready var cards_container := $CardsContainer
+@onready var cards_connector_container := $CardsConnectorsContainer
+
 
 @onready var dragged:Control = null
 @onready var resizing:Control = null
@@ -27,7 +31,11 @@ func fill_blanks() -> void:
 		newCard.end_resize.connect(end_card)
 		newCard.focused.connect(update_focus_stack)
 		if last != null:
-			last.add_card_next(newCard)
+			var connector = card_connector_scene.instantiate()
+			connector.from_card = last
+			connector.to_card = newCard
+			cards_connector_container.add_child(connector)
+		
 		cards_container.add_child(newCard)
 		last = newCard
 
@@ -61,16 +69,17 @@ func update_focus_stack(card:Node) -> void:
 func _ready() -> void:
 	fill_blanks()
 
-func queue_cards_redraw() -> void:
-	for children in cards_container.get_children():
+func queue_cards_connector_redraw() -> void:
+	for children in cards_connector_container.get_children():
 		children.queue_redraw()
+		children.update_points()
 
 func _process(delta: float) -> void:
 	if dragged != null:
 		var k = 1.0 / cards_container.scale.x
 		var local_mouse = get_local_mouse_position() * k
 		dragged.position = local_mouse - offset
-		queue_cards_redraw()
+		queue_cards_connector_redraw()
 	if resizing != null:
 		var k = 1.0 / cards_container.scale.x
 		var local_mouse = get_local_mouse_position() * k
@@ -78,12 +87,50 @@ func _process(delta: float) -> void:
 			max((local_mouse.x - offset.x), resizing.custom_minimum_size.x),
 			max((local_mouse.y - offset.y), resizing.custom_minimum_size.y)
 		)
-		queue_cards_redraw()
+		queue_cards_connector_redraw()
+
+
 
 func _gui_input(event: InputEvent) -> void:
 	if event is not InputEventMouseButton:
 		return
 	if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-		cards_container.scale = Vector2(min(10, cards_container.scale.x +0.1), min(10, cards_container.scale.y +0.1)) 
+		var new_scale = Vector2(min(10, cards_container.scale.x +0.1), min(10, cards_container.scale.y +0.1)) 
+		cards_container.scale = new_scale
+		cards_connector_container.scale = new_scale
 	elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-		cards_container.scale = Vector2(max(0.1 , cards_container.scale.x - 0.1), max(0.1 , cards_container.scale.y - 0.1)) 
+		var new_scale = Vector2(max(0.1 , cards_container.scale.x - 0.1), max(0.1 , cards_container.scale.y - 0.1)) 
+		cards_container.scale = new_scale
+		cards_connector_container.scale = new_scale
+
+
+
+var start_move_pos := Vector2.ZERO
+var dragging_canvas := false
+
+func parse_mouse_button(event: InputEventMouseButton) -> void:
+	if event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+		start_move_pos = get_global_mouse_position()
+		dragging_canvas = true
+	elif event.is_released() and event.button_index == MOUSE_BUTTON_LEFT:
+		dragging_canvas = false
+	
+func parse_mouse_move(event: InputEventMouseMotion) -> void:
+	if dragging_canvas:
+		var diff = (get_global_mouse_position() - start_move_pos) * (1 / cards_container.scale.x)
+		start_move_pos = get_global_mouse_position()
+		for child in cards_container.get_children():
+			child.position = child.position + diff
+		queue_cards_connector_redraw()
+
+func _on_cards_container_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		parse_mouse_button(event)
+	if event is InputEventMouseMotion:
+		parse_mouse_move(event)
+
+func _on_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		parse_mouse_button(event)
+	if event is InputEventMouseMotion:
+		parse_mouse_move(event)

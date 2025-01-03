@@ -13,8 +13,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_ikxq1")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="CardsConnectorsContainer" type="Control" parent="."]
 layout_mode = 2
+
+[node name="CardsContainer" type="Control" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
@@ -31,21 +39,20 @@ layout_mode = 2
 size_flags_horizontal = 0
 placeholder_text = "Stage name..."
 
-[node name="CardsContainer" type="Control" parent="."]
-layout_mode = 2
-
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="gui_input" from="CardsContainer" to="." method="_on_cards_container_gui_input"]
 [connection signal="gui_input" from="CardsContainer/StageCard" to="CardsContainer/StageCard" method="_on_gui_input"]
 [connection signal="mouse_entered" from="CardsContainer/StageCard" to="CardsContainer/StageCard" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="CardsContainer/StageCard" to="CardsContainer/StageCard" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CardsContainer/@PanelContainer@23945" to="CardsContainer/@PanelContainer@23945" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@23945" to="CardsContainer/@PanelContainer@23945" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@23945" to="CardsContainer/@PanelContainer@23945" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CardsContainer/@PanelContainer@23959" to="CardsContainer/@PanelContainer@23959" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@23959" to="CardsContainer/@PanelContainer@23959" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@23959" to="CardsContainer/@PanelContainer@23959" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CardsContainer/@PanelContainer@23973" to="CardsContainer/@PanelContainer@23973" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@23973" to="CardsContainer/@PanelContainer@23973" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@23973" to="CardsContainer/@PanelContainer@23973" method="_on_mouse_exited"]
-[connection signal="gui_input" from="CardsContainer/@PanelContainer@23995" to="CardsContainer/@PanelContainer@23995" method="_on_gui_input"]
-[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@23995" to="CardsContainer/@PanelContainer@23995" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@23995" to="CardsContainer/@PanelContainer@23995" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CardsContainer/@PanelContainer@44227" to="CardsContainer/@PanelContainer@44227" method="_on_gui_input"]
+[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@44227" to="CardsContainer/@PanelContainer@44227" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@44227" to="CardsContainer/@PanelContainer@44227" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CardsContainer/@PanelContainer@44250" to="CardsContainer/@PanelContainer@44250" method="_on_gui_input"]
+[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@44250" to="CardsContainer/@PanelContainer@44250" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@44250" to="CardsContainer/@PanelContainer@44250" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CardsContainer/@PanelContainer@44269" to="CardsContainer/@PanelContainer@44269" method="_on_gui_input"]
+[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@44269" to="CardsContainer/@PanelContainer@44269" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@44269" to="CardsContainer/@PanelContainer@44269" method="_on_mouse_exited"]
+[connection signal="gui_input" from="CardsContainer/@PanelContainer@44296" to="CardsContainer/@PanelContainer@44296" method="_on_gui_input"]
+[connection signal="mouse_entered" from="CardsContainer/@PanelContainer@44296" to="CardsContainer/@PanelContainer@44296" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="CardsContainer/@PanelContainer@44296" to="CardsContainer/@PanelContainer@44296" method="_on_mouse_exited"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmo6msdbue3xu"]
+
+[ext_resource type="Script" path="res://addons/gd_novel_plugin/cards_connector.gd" id="1_pb10h"]
+
+[node name="CardsConnector" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pb10h")
+
+[node name="Path2D" type="Path2D" parent="."]
+visible = false
